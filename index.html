@@ -36,7 +36,7 @@
     <script>
 // SNS 공유기능
 function sendLinkFacebook(){
-    var facebook_share_url = "https://www.facebook.com/sharer/sharer.php?u=http://www.windybay.net/post/6/";
+    var facebook_share_url = "https://www.facebook.com/sharer/sharer.php?u=https://hufscapstone.netlify.app/";
     window.open(facebook_share_url, 
                 'Share on Facebook', 
                 'scrollbars=no, width=500, height=500');    
@@ -47,16 +47,16 @@ function sendLinkFacebook(){
 }
 
 function sendLinkTwitter(){
-    var twitter_share_text="블로그에 카카오톡 공유 버튼 만들기";
-    var twitter_share_url="http://www.windybay.net/post/6/";
+    var twitter_share_text="우리들의 미팅플레이스";
+    var twitter_share_url="https://hufscapstone.netlify.app/";
     window.open("https://twitter.com/share?text="+twitter_share_text+"&url="+twitter_share_url,
                 'Share on Twitter',
                 'scrollbars=no, width=500, height=500');
 }
 
 function sendLinkNaver(){
-    var raw_url = "http://www.windybay.net/post/6/";
-    var raw_title = "블로그에 카카오톡 공유 버튼 만들기"
+    var raw_url = "https://hufscapstone.netlify.app/";
+    var raw_title = "우리들의 미팅플레이스"
     var naver_root_url = "http://share.naver.com/web/shareView.nhn?url="
     var naver_share_url = naver_root_url+encodeURI(raw_url)+"&title="+encodeURI(raw_title);
 
@@ -66,25 +66,25 @@ function sendLinkNaver(){
 }
 
 // https://developers.kakao.com/docs/js/kakaotalklink
-Kakao.init('19437fa2391c0eec6c9afb97dd3681ce');
+Kakao.init('a65ce9b444e778d6e4524f99d1734dc0');
 function sendLinkKakao(){
     Kakao.Link.sendDefault({
       objectType: 'feed',
       content: {
-        title: '블로그에 카카오톡 공유 버튼 만들기',
-        description: '이전 글 - 블로그에 SNS 공유버튼 만들기 블로그에 post 공유용 SNS 만드는 방법을 정리해 본다. …',
-        imageUrl: 'http://www.windybay.net/media/uploads/2020/02/15/image_caErdbJ_thumb146.png',
+        title: '우리들의 미팅플레이스',
+        description: '',
+        imageUrl: 'https://us.123rf.com/450wm/yupiramos/yupiramos1712/yupiramos171220221/92272314-%ED%95%80-%ED%8F%AC%EC%9D%B8%ED%84%B0-%EC%9C%84%EC%B9%98-%EC%95%84%EC%9D%B4%EC%BD%98-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%EB%94%94%EC%9E%90%EC%9D%B8.jpg?ver=6',
         link: {
-          mobileWebUrl: 'http://www.windybay.net/post/6/',
-          webUrl: 'http://www.windybay.net/post/6/'
+          mobileWebUrl: 'https://hufscapstone.netlify.app/',
+          webUrl: 'https://hufscapstone.netlify.app/'
         }
       },
       buttons: [        
         {
           title: '링크 열기',
           link: {
-            mobileWebUrl: 'http://www.windybay.net/post/6/',
-            webUrl: 'http://www.windybay.net/post/6/'
+            mobileWebUrl: 'https://hufscapstone.netlify.app/',
+            webUrl: 'https://hufscapstone.netlify.app/'
           }
         }
       ]
