@@ -29,6 +29,11 @@
                     <img src="/static/images/kakaotalk.png" width=36 alt="Kakaotalk">
                 </a>
             </span>
+            <span class="sociallink ml-1">
+              <a href="javascript:sendLinkKakaostory()" id="kakaostory-link-btn" title="카카오스토리으로 공유">
+                  <img src="/static/images/kakaotalk.png" width=36 alt="Kakaostory">
+              </a>
+          </span>
     </div>
 </div>
     <script>
@@ -86,7 +91,14 @@ function sendLinkKakao(){
           }
         }
       ]
-    });  
+    });
+
+    function shareStoryWeb() { // 카카오 스토리 공유하기
+          Kakao.Story.share({
+            url: 'https://hufscapstone.netlify.app',
+            text: '우리들의 미팅플레이스! #약속장소 :)',
+          })
+        }  
 }
 </script>
 </body>
