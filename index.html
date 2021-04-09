@@ -1,93 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>미팅플레이스공유</title>
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>길찾기 결과 지도에 표출하기</title>
 </head>
 <body>
-  <div class="row text-center">
-    <div class="col-12">
-        <span>
-            <span class="sociallink ml-1">
-                <a href="javascript:sendLinkFacebook()" title="페이스북으로 공유">
-                    <img src="/static/images/facebook.png" width=36 alt="Facebook">
-                </a>
-            </span>
-            <span class="sociallink ml-1">
-                <a href="javascript:sendLinkTwitter()" title="트위터로 공유">
-                    <img src="/static/images/twitter.png" width=36 alt="Twitter">
-                </a>
-            </span>
-            <span class="sociallink ml-1">
-                <a href="javascript:sendLinkNaver()" title="네이버로 공유">
-                    <img src="/static/images/naver.png" width=36 alt="Naver">
-                </a>
-            </span>
-            <span class="sociallink ml-1">
-                <a href="javascript:sendLinkKakao()" id="kakao-link-btn" title="카카오톡으로 공유">
-                    <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" width=36 alt="Kakaotalk">
-                </a>
-            </span>
-    </div>
-</div>
-    <script>
-// SNS 공유기능
-function sendLinkFacebook(){
-    var facebook_share_url = "https://www.facebook.com/sharer/sharer.php?u=https://hufscapstone.netlify.app/";
-    window.open(facebook_share_url, 
-                'Share on Facebook', 
-                'scrollbars=no, width=500, height=500');    
-    // return false;
-    // FireFox에서는 anchor tag에 걸린 함수에 명시된 return 값이 있으면 그 값을 string 으로 화면에 띄우는 버그(? 인지 의도된 동작인지?) 발생.
-    // 즉 return false; 해놓으면 Facebook 걸려있는 anchor tag 클릭했을때 새 창이 뜨고 원래 창에는 흰 화면에 false 라고 글자가 표시된다.
-    // 이를 방지하기 위해서 return false; 는 지워주었음
-}
+<div id="map" style="width:100%;height:400px;"></div>
+<!-- Naver Developers에서 발급받은 네이버지도 Application Key 입력  -->
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId={0hi2w0r7sp}"></script>
 
-function sendLinkTwitter(){
-    var twitter_share_text="우리들의 미팅플레이스";
-    var twitter_share_url="https://hufscapstone.netlify.app/";
-    window.open("https://twitter.com/share?text="+twitter_share_text+"&url="+twitter_share_url,
-                'Share on Twitter',
-                'scrollbars=no, width=500, height=500');
-}
+<script>
+ 
+	var mapOptions = {
+		center: new naver.maps.LatLng(37.3595704, 127.105399),
+		zoom: 10
+	};
 
-function sendLinkNaver(){
-    var raw_url = "https://hufscapstone.netlify.app/";
-    var raw_title = "우리들의 미팅플레이스"
-    var naver_root_url = "http://share.naver.com/web/shareView.nhn?url="
-    var naver_share_url = naver_root_url+encodeURI(raw_url)+"&title="+encodeURI(raw_title);
-
-    window.open(naver_share_url,
-                'Share on Naver',
-                'scrollbars=no, width=500, height=500');    
-}
-
-// https://developers.kakao.com/docs/js/kakaotalklink
-Kakao.init('a65ce9b444e778d6e4524f99d1734dc0');
-function sendLinkKakao(){
-    Kakao.Link.sendDefault({
-      objectType: 'feed',
-      content: {
-        title: '우리들의 미팅플레이스',
-        description: '',
-        imageUrl: 'https://us.123rf.com/450wm/yupiramos/yupiramos1712/yupiramos171220221/92272314-%ED%95%80-%ED%8F%AC%EC%9D%B8%ED%84%B0-%EC%9C%84%EC%B9%98-%EC%95%84%EC%9D%B4%EC%BD%98-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8-%EB%94%94%EC%9E%90%EC%9D%B8.jpg?ver=6',
-        link: {
-          mobileWebUrl: 'https://hufscapstone.netlify.app/',
-          webUrl: 'https://hufscapstone.netlify.app/'
-        }
-      },
-      buttons: [        
-        {
-          title: '링크 열기',
-          link: {
-            mobileWebUrl: 'https://hufscapstone.netlify.app/',
-            webUrl: 'https://hufscapstone.netlify.app/'
-          }
-        }
-      ]
-    }); 
-}
+	var map = new naver.maps.Map('map', mapOptions);
+	
+	var sx = 126.93737555322481;
+	var sy = 37.55525165729346;
+	var ex = 126.88265238619182;
+	var ey = 37.481440035175375;
+	
+	function searchPubTransPathAJAX() {
+		var xhr = new XMLHttpRequest();
+		//ODsay apiKey 입력
+		var url = "https://api.odsay.com/v1/api/searchPubTransPath?SX="+sx+"&SY="+sy+"&EX="+ex+"&EY="+ey+"&apiKey={YOUR_API_KEY}";
+		xhr.open("GET", url, true);
+		xhr.send();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log( JSON.parse(xhr.responseText) ); // <- xhr.responseText 로 결과를 가져올 수 있음
+			//노선그래픽 데이터 호출
+			callMapObjApiAJAX((JSON.parse(xhr.responseText))["result"]["path"][0].info.mapObj);
+			}
+		}
+	}
+	
+	//길찾기 API 호출
+	searchPubTransPathAJAX();
+	
+	function callMapObjApiAJAX(mabObj){
+		var xhr = new XMLHttpRequest();
+		//ODsay apiKey 입력
+		var url = "https://api.odsay.com/v1/api/loadLane?mapObject=0:0@"+mabObj+"&apiKey={5C5uttovZV6izQt+xrOs3Q}";
+		xhr.open("GET", url, true);
+		xhr.send();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				var resultJsonData = JSON.parse(xhr.responseText);
+				drawNaverMarker(sx,sy);					// 출발지 마커 표시
+				drawNaverMarker(ex,ey);					// 도착지 마커 표시
+				drawNaverPolyLine(resultJsonData);		// 노선그래픽데이터 지도위 표시
+				// boundary 데이터가 있을경우, 해당 boundary로 지도이동
+				if(resultJsonData.result.boundary){
+						var boundary = new naver.maps.LatLngBounds(
+				                new naver.maps.LatLng(resultJsonData.result.boundary.top, resultJsonData.result.boundary.left),
+				                new naver.maps.LatLng(resultJsonData.result.boundary.bottom, resultJsonData.result.boundary.right)
+				                );
+						map.panToBounds(boundary);
+				}
+			}
+		}
+	}
+	
+	// 지도위 마커 표시해주는 함수
+	function drawNaverMarker(x,y){
+		var marker = new naver.maps.Marker({
+		    position: new naver.maps.LatLng(y, x),
+		    map: map
+		});
+	}
+	
+	// 노선그래픽 데이터를 이용하여 지도위 폴리라인 그려주는 함수
+	function drawNaverPolyLine(data){
+		var lineArray;
+		
+		for(var i = 0 ; i < data.result.lane.length; i++){
+			for(var j=0 ; j <data.result.lane[i].section.length; j++){
+				lineArray = null;
+				lineArray = new Array();
+				for(var k=0 ; k < data.result.lane[i].section[j].graphPos.length; k++){
+					lineArray.push(new naver.maps.LatLng(data.result.lane[i].section[j].graphPos[k].y, data.result.lane[i].section[j].graphPos[k].x));
+				}
+				
+			//지하철결과의 경우 노선에 따른 라인색상 지정하는 부분 (1,2호선의 경우만 예로 들음)
+				if(data.result.lane[i].type == 1){
+					var polyline = new naver.maps.Polyline({
+					    map: map,
+					    path: lineArray,
+					    strokeWeight: 3,
+					    strokeColor: '#003499'
+					});
+				}else if(data.result.lane[i].type == 2){
+					var polyline = new naver.maps.Polyline({
+					    map: map,
+					    path: lineArray,
+					    strokeWeight: 3,
+					    strokeColor: '#37b42d'
+					});
+				}else{
+					var polyline = new naver.maps.Polyline({
+					    map: map,
+					    path: lineArray,
+					    strokeWeight: 3
+					});
+				}
+			}
+		}
+	}
 </script>
 </body>
 </html>
