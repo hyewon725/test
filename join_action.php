@@ -7,13 +7,14 @@ include ("./db.php");
  
         $id=$_GET[id];
         $pw=$_GET[pw];
+        $gender=$_GET[gender];
         $email=$_GET[email];
         $univ=$_GET[univ];
 
  
         $date = date('Y-m-d H:i:s');
  
-        $query = "insert into member (id, pw, mail, univ, date, permit) values ('$id', '$pw', '$univ', '$email', '$date', 0)";
+        $query = "insert into member (id, pw, gender, email, univ, date, permit) values ('$id', '$pw', '$gender', '$email', '$univ', '$date', 0)";
              //입력받은 데이터를 DB에 저장
  
         $result = $connect->query($query);
