@@ -2,7 +2,7 @@
 include ("./db.php"); 
 
  
-        $connect = mysqli_connect('localhost', 'root', 'meetingplace', 'dbname') or die("fail");
+        $connect = mysqli_connect('localhost', 'root', '970725', 'test') or die("fail");
         
  
         $id=$_GET[id];
